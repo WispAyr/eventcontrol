@@ -1,0 +1,27 @@
+@{layout('')}
+
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h2 style="color: #333;">Welcome to Event Control</h2>
+    
+    <p>Hello @{model.firstName},</p>
+    
+    <p>Welcome to Event Control! We're excited to have you on board. Your account has been successfully created.</p>
+    
+    <p>With Event Control, you can:</p>
+    <ul style="color: #555; line-height: 1.6;">
+        <li>Manage events and incidents in real-time</li>
+        <li>Collaborate with team members</li>
+        <li>Track incident responses</li>
+        <li>Access detailed event analytics</li>
+    </ul>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="@{model.loginUrl}" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">Get Started</a>
+    </div>
+    
+    <p>If you have any questions or need assistance, don't hesitate to reach out to our support team.</p>
+    
+    <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+    
+    <p style="color: #666; font-size: 12px;">This email was sent to you because you signed up for Event Control. If you didn't create this account, please contact support immediately.</p>
+</div> 

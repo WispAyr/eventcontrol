@@ -1,0 +1,90 @@
+@{layout('')}
+
+<div class="card">
+    <h1>Event Control</h1>
+    <p class="mb-4">Manage your events and incidents in real-time.</p>
+
+    <div class="form-group">
+        <h3>Create New Event</h3>
+        <form class="mt-2" data-jc="form" data-jc-path="form" data-jc-config="url:/api/events">
+            <div class="form-group">
+                <label>Event Name</label>
+                <input type="text" class="form-control" name="name" required />
+            </div>
+            
+            <div class="form-group">
+                <label>Event Type</label>
+                <select class="form-control" name="type" required>
+                    <option value="concert">Concert</option>
+                    <option value="sports">Sports</option>
+                    <option value="conference">Conference</option>
+                    <option value="festival">Festival</option>
+                    <option value="exhibition">Exhibition</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="datetime-local" class="form-control" name="dates.event_start" required />
+            </div>
+            
+            <div class="form-group">
+                <label>End Date</label>
+                <input type="datetime-local" class="form-control" name="dates.event_end" required />
+            </div>
+            
+            <div class="form-group">
+                <label>Venue Name</label>
+                <input type="text" class="form-control" name="location.venue_name" required />
+            </div>
+            
+            <button class="button">Create Event</button>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <h2>Active Events</h2>
+    <div data-jc="repeater" data-jc-path="events">
+        <script type="text/html">
+            <div class="grid">
+                {{ foreach m in value }}
+                <div class="card">
+                    <h3>{{ m.name }}</h3>
+                    <p>Type: {{ m.type }}</p>
+                    <p>Status: {{ m.status }}</p>
+                    <p>Venue: {{ m.location.venue_name }}</p>
+                    <p>Start: {{ m.dates.event_start | format('yyyy-MM-dd HH:mm') }}</p>
+                    <button class="button" data-id="{{ m.id }}">View Details</button>
+                </div>
+                {{ end }}
+            </div>
+        </script>
+    </div>
+</div>
+
+<script>
+    COMPONENT('repeater', function(self) {
+        self.readonly();
+        self.make = function() {
+            // Load active events
+            AJAX('GET /api/events', { status: 'active' }, function(response) {
+                self.set(response);
+            });
+        };
+    });
+
+    COMPONENT('form', function(self) {
+        self.make = function() {
+            self.submit(function(form) {
+                AJAX('POST /api/events', form, function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.error);
+                    }
+                });
+            });
+        };
+    });
+</script> 
